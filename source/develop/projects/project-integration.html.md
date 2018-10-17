@@ -10,12 +10,14 @@ authors: knesenko, mgoldboi, rafaelmartins, sandrobonazzola
 
 The members of the Integration team are
 
-*   Yedidyah Bar David (Didi)
-*   Doron Fediuck (Doron)
+*   [Yedidyah Bar David (Didi)](https://github.com/didib)
+*   [Doron Fediuck (Doron)](https://github.com/doron-fediuck)
 *   [Sandro Bonazzola](https://github.com/sandrobonazzola)
-*   Simone Tiraboschi (Stirabos)
-*   Lev Veyde (Lveyde)
-*   Ido Rosenzwig
+*   [Simone Tiraboschi (Stirabos)](https://github.com/tiraboschi)
+*   [Lev Veyde (Lveyde)](https://github.com/lveyde)
+*   [Ido Rosenzwig](https://github.com/irosenzw)
+*   [Asaf Rachmani](https://github.com/arachmani)
+*   [Gal Zaidman](https://github.com/Gal-Zaidman)
 
 Outstanding contributors
 
@@ -32,22 +34,29 @@ Leads the following projects:
 
 *   oVirt Engine Setup
 *   oVirt DWH Setup
-*   oVirt Reports Setup
 *   oVirt Host Deploy
 *   oVirt Hosted Engine Setup
 *   oVirt Websoket Proxy Setup
-*   [oVirt Iso Uploader](/develop/developer-guide/engine/engine-tools/#ovirt-iso-uploader)
-*   [oVirt Image Uploader](/develop/developer-guide/engine/engine-tools/#engine-image-uploader)
 *   [oVirt Log Collector](/develop/developer-guide/engine/engine-tools/#ovirt-log-collector)
 *   [oVirt Releases](/develop/release-management/releases/) and Release management
-*   [oVirt Live](/download/ovirt-live/)
+*   [oVirt Orb](/documentation/ovirt-orb/)
 *   [oVirt Windows Guest Tools](/develop/release-management/features/engine/windows-guest-tools/)
 *   [oVirt Quality Assurance](/develop/projects/project-qa/)
 *   [OTOPI](/develop/developer-guide/engine/otopi/)
+
+## Projects deprecated / dropped in latest oVirt releases
+
+*   [oVirt Iso Uploader](/develop/developer-guide/engine/engine-tools/#ovirt-iso-uploader)
+*   [oVirt Image Uploader](/develop/developer-guide/engine/engine-tools/#engine-image-uploader)
+*   [oVirt Live](/download/ovirt-live/)
+
+## Other communities collaborations
+
 Collaborates with other communities / projects:
 
 *   [Fedora](https://getfedora.org/)
 *   [CentOS](http://centos.org/)
+*   [CentOS OpsTools SIG](https://wiki.centos.org/SpecialInterestGroup/OpsTools)
 *   [SOS](https://github.com/sosreport)
 *   [Sanlock](https://pagure.io/sanlock)
 *   [VDSM](/develop/developer-guide/vdsm/vdsm/)

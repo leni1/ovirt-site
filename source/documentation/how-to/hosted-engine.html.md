@@ -24,14 +24,15 @@ Greg Padgett <gpadgett@redhat.com>, Martin Sivak <msivak@redhat.com>
 ## **Requirements**
 
 *   Two hypervisors (hosts)
-*   NFS-based shared storage (since 3.4.0) or [iSCSI storage](Feature/Self_Hosted_Engine_iSCSI_Support) (since 3.5.0 beta)
+*   NFS-based shared storage (since 3.4.0) or [iSCSI storage](/develop/release-management/features/sla/self-hosted-engine-iscsi-support/) (since 3.5.0 beta)
 *   Access to the oVirt repository
 
-## **Fresh Install**
+## **Fresh Install (via CLI)**
 
 Assuming you're using ovirt RPMs, you should start with install and deploy:
 
          # yum install ovirt-hosted-engine-setup
+         # yum install ovirt-engine-appliance
          # hosted-engine --deploy
 
 During the deployment you'll be asked for input on host name, storage path and other relevant information. The installer will configure the system and run an empty VM. Access the VM and install an OS:
@@ -57,6 +58,35 @@ On the VM:
 
 When the engine-setup has completed on the VM, return to the host and complete the configuration. Your hosted engine VM is up and running!
 
+## **Fresh Install (via Web UI)**
+
+Self-Hosted Engine can be deployed also via a web UI inroduced by cockpit.
+To deploy the self-hosted engine using the Cockpit user interface, follow these steps:
+
+1. Install the cockpit-ovirt-dashboard package:
+
+        # yum install cockpit-ovirt-dashboard
+       
+2. Start and enable cockpit:
+
+        # systemctl enable cockpit.socket
+        # systemctl start cockpit.socket
+        
+3. Allow access to Cockpit in the firewall:
+
+        # firewall-cmd --add-service=cockpit --permanent
+        # firewall-cmd --reload
+        
+4. Log in to the UI at https://HostIPorFQDN:9090
+   
+   By default, you should get a warning/popup from your browser about a self-signed certificate, unknown issuer, or something like that. Accept it, or see for [more details](http://cockpit-project.org/guide/149/https.html)
+5. Navigate to *Virtualization* > *Hosted Engine*
+6. Select *Hosted Engine Only Deployment*
+7. Select a deployment method from the scrolldown menu:
+   1. OTOPI-Based deployment - stable
+   2. Ansible-Based deployment - preview (see [Feature page](https://www.ovirt.org/develop/release-management/features/sla/hosted-engine-new-deployment/) )
+8. Press the *start* button
+
 **Notes:**
 
 *   Remember to setup the same hostname you specified as FQDN during deploy while you're setting up the engine on the VM.
@@ -65,51 +95,37 @@ When the engine-setup has completed on the VM, return to the host and complete t
         # hosted-engine --set-maintenance --mode=global
 
     because the engine service must be stopped during setup / upgrade operations.
-*   It is recommended to [install the Hosted-Engine](/develop/release-management/features/heapplianceflow/) using the oVirt appliance, the deployment becomes easier and quicker.
+*   It is recommended to [install the Hosted-Engine](/develop/release-management/features/integration/heapplianceflow/) using the oVirt appliance. The deployment becomes easier and quicker.
 
 ### **Restarting from a partially deployed system**
 
 If, for any reason, the deployment process breaks before its end, you can try to continue from where it got interrupted without the need to restart from scratch.
 
-*   Closing up, hosted-engine --deploy always generates an answerfile. You could simply try restart the deployment process with that answerfile:
+*   Closing up, hosted-engine --deploy always generates an answerfile. You could simply try restart the deployment process with that answer file:
 
       hosted-engine --deploy --config-append=/var/lib/ovirt-hosted-engine-setup/answers/answers-20150402165233.conf
 
-*   it should start the VM from CD-ROM using the same storage device for it, but if you have already installed the OS you could simply poweroff it and select: (1) Continue setup - VM installation is complete
-*   at that point it should boot the previously engine VM from the storage device and you are ready to conclude it
-*   if this doesn't work you have to cleanup the storage device and restart from scratch
+*   It should start the VM from CD-ROM using the same storage device for it, but if you have already installed the OS you could simply poweroff it and select: (1) Continue setup - VM installation is complete
+*   At that point it should boot the previously engine VM from the storage device and you are ready to conclude it
+*   If this doesn't work you have to cleanup the storage device and restart from scratch
 
 ## **Migrate existing setup to a VM**
 
-Moving an existing setup into a VM is similar to a fresh install, but instead of running a fresh engine-setup inside the VM, we restore there a backup of the existing engine. For full details see [Migrate_to_Hosted_Engine](Migrate_to_Hosted_Engine)
+Moving an existing setup into a VM is similar to a fresh install, but instead of running a fresh engine-setup inside the VM, we restore there a backup of the existing engine. For full details see [Migrate to Hosted Engine](/develop/developer-guide/engine/migrate-to-hosted-engine/).
 
 ## **Installing additional nodes**
 
-Here is an example of a deployment on an additional host:
+This should be performed via the UI by adding a new Host with Hosted Engine installed to the desired cluster.
 
-         # yum install ovirt-hosted-engine-setup
-         # hosted-engine --deploy
+![Figure 1. Add New Host](/images/wiki/Add-Host-view.png "Figure 1. Add New Host")
 
-Once storage path is given, the installer will identify this is an additional host, and will change the flow accordingly:
+## **Migrate hosts from EL6 to EL7**
 
-         The specified storage location already contains a data domain. Is this an additional host setup (Yes, No)[Yes]? yes
-         [ INFO  ] Installing on additional host
-                 Please specify the Host ID [Must be integer, default: 2]:
+In 3.6, EL6 is no longer supported for hosted-engine hosts. Existing 3.5 EL6 hosts should be first migrated to EL7, then upgraded to 3.6. More details in [Hosted Engine host operating system upgrade Howto](/documentation/how-to/hosted-engine-host-OS-upgrade/).
 
-As with the first node, this will take you to the process completion.
+## **Migrate the engine VM from 3.6/EL6 to 4.0/EL7**
 
-**Notes**
-
-*   Remember to use the same storage path you used on first host.
-*   There is a bug in 3.5 when adding a host to a cluster which was initially 3.4. A workaround is to manually edit the answer file on the existing hosts prior to adding a host. See [BZ 1308962](https://bugzilla.redhat.com/show_bug.cgi?id=1308962).
-
-## **Migrate hosts from el6 to el7**
-
-In 3.6, el6 is not supported anymore for hosted-engine hosts. Existing 3.5 el6 hosts should be first migrated to el7, then upgraded to 3.6. More details in [Hosted Engine host operating system upgrade Howto](hosted-engine-host-OS-upgrade).
-
-## **Migrate the engine VM from 3.6/el6 to 4.0/el7**
-
-In 4.0, el6 is not supported anymore for the engine VM. Existing 3.6 el6 engine VM should be migrated to el7, more details in [Hosted-engine migration to 4.0](/develop/release-management/features/hosted-engine-migration-to-4-0/).
+In 4.0, EL6 is no longer supported for the engine VM. Existing 3.6 EL6 engine VM should be migrated to EL7. More details can be found in [Hosted engine migration to 4.0](/develop/release-management/features/sla/hosted-engine-migration-to-4-0/).
 If the engine VM is already based on el7, the user can also simply upgrade the engine there.
 
 ## **Maintaining the setup**
@@ -140,23 +156,11 @@ To resume HA functionality, use:
 
 ## **Upgrade Hosted Engine**
 
-Assuming you have already deployed Hosted Engine on your hosts and running the Hosted Engine VM, having the same oVirt version both on hosts and Hosted Engine VM.
-
-1.  Set hosted engine maintenance mode to global (now ha agent stop monitoring engine-vm, you can see above how to activate it)
-2.  Access to engine-vm and upgrade oVirt to latest version using the same procedure used for non hosted engine setups.
-3.  Select one of the hosted-engine nodes (hypervisors) and put it into maintenance mode from the engine. Note that the host must be in maintenance to allow upgrade to run.
-4.  Upgrade that host with new packages (changes repository to latest version and run yum update -y) on this stage may appear vdsm-tool exception <https://bugzilla.redhat.com/show_bug.cgi?id=1088805>
-5.  Restart vdsmd (# service vdsmd restart)
-6.  Restart ha-agent and broker services (# systemctl restart ovirt-ha-broker && systemctl restart ovirt-ha-agent)
-7.  Exit the global maintenance mode: in a few minutes the engine VM should migrate to the fresh upgraded host cause it will get an higher score
-8.  When the migration has been completed re-enter into global maintenance mode
-9.  Repeat step 3-6 for all the other hosted-engine hosts
-10. Enter for example via UI to engine and change 'Default' cluster (where all your hosted hosts seats) compatibility version to current version (for example 3.6 and activate your hosts (to get features of the new version)
-11. Change hosted-engine maintenance to none, starting from 3.4 you can do it via UI(right click on engine vm, and 'Disable Global HA Maintenance Mode')
+Please refer to [oVirt Upgrade Guide](/upgrade-guide/upgrade-guide/)
 
 ## **Hosted Engine Backup and Restore**
 
-Please refer to [oVirt Hosted Engine Backup and Restore](oVirt Hosted Engine Backup and Restore) guide
+Please refer to [oVirt Hosted Engine Backup and Restore](/documentation/self-hosted/chap-Backing_up_and_Restoring_an_EL-Based_Self-Hosted_Environment/) guide
 
 ## **Lockspace corrupted recovery procedure**
 
@@ -236,7 +240,7 @@ To boot from different media, e.g. a rescue CD:
 
 ## **More info**
 
-Additional information is available in the feature page [Features/Self_Hosted_Engine](Features/Self_Hosted_Engine)
+Additional information is available on the feature page [Self Hosted Engine](/develop/release-management/features/sla/self-hosted-engine).
 
 ## **FAQ**
 
@@ -267,7 +271,7 @@ When the hosted engine VM is down for some reason the agent(s) will try to start
 
 ### Recoving from failed install
 
-If your hosted engine install fails, you have to manually clean up before you can reinstall. Exactly what needs to be done depends on how far the install got before failing. Here are the steps I've used, base on this [thread from the mailing list](http://lists.ovirt.org/pipermail/users/2014-May/024423.html):
+If your hosted engine install fails, you have to manually clean up before you can reinstall. Exactly what needs to be done depends on how far the install got before failing. Here are the steps I've used, base on this [thread from the mailing list](https://lists.ovirt.org/pipermail/users/2014-May/024423.html):
 
 *   clean up hosted engine storage. This will vary depending on your storage setup. I logged into my NFS server and purged the directory used during the hoste-engine install.
 
@@ -317,4 +321,3 @@ If your hosted engine install fails, you have to manually clean up before you ca
        echo "! error removing $d"
        exit 1
     done
-

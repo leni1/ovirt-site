@@ -7,6 +7,8 @@ authors: apevec, bproffitt, dneary, jvandewege, mgoldboi, obasan, sandrobonazzol
 
 # oVirt Live
 
+**Note: oVirt Live is now considered deprecated and is no longer be maintained.**
+
 ## What is it?
 
 oVirt Live is an unofficial [Fedora spin](http://spins.fedoraproject.org/about) of [Fedora Live CD](http://fedoraproject.org/wiki/FedoraLiveCD) and [CentOS Live CD](https://projects.centos.org/trac/livecd/), based on oVirt stable releases using [All In One](/develop/release-management/features/integration/allinone/) plugin.
@@ -86,7 +88,7 @@ If you're testing oVirt Live and you find issues please open a bug: <https://bug
 
 **Download**
 
-*   EL7.3 based: [Download oVirt Live 4.1.0](http://plain.resources.ovirt.org/pub/ovirt-4.1/iso/ovirt-live/ovirt-live-4.1.iso)
+*   EL7.3 based: [Download oVirt Live 4.1.0](http://plain.resources.ovirt.org/pub/ovirt-4.1/iso/ovirt-live/4.1.0/ovirt-live-4.1.iso)
 
 **ChangeLog**
 

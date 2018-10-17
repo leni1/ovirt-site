@@ -5,7 +5,7 @@ authors: didi
 
 # Migrate to Hosted Engine
 
-An example showing how to migrate an existing engine installation to [Self Hosted Engine](/develop/release-management/features/engine/self-hosted-engine/), using [backup/restore](/develop/release-management/features/engine/engine-backup/).
+An example showing how to migrate an existing engine installation to [Self Hosted Engine](/develop/release-management/features/sla/self-hosted-engine/), using [backup/restore](/develop/release-management/features/integration/engine-backup/).
 
 ## Preparations
 
@@ -193,7 +193,7 @@ Then restore the backup using a database we already created on another machine. 
 
       # engine-backup --mode=restore --file=backup1 --log=backup1-restore.log --change-db-credentials --db-host=didi-lap --db-user=engine --db-password --db-name=engine
 
-This will require manual preparation work of configuring postgresql and creating a user/database if using a local database, which is the default. For more details see [backup/restore](/develop/release-management/features/engine/engine-backup/).
+This will require manual preparation work of configuring postgresql and creating a user/database if using a local database, which is the default. For more details see [backup/restore](/develop/release-management/features/integration/engine-backup/).
 
 This restores files and the database, but still does not start the service nor does other stuff which is normally done by setup.
 
@@ -294,4 +294,4 @@ Then, on the console where we ran 'hosted-engine --deploy', on didi-box1:
       [ INFO  ] Stage: Pre-termination
       [ INFO  ] Stage: Termination
 
-That's it. If we now point a browser at <https://my-engine.home.local/ovirt-engine/> , we can login to the web admin interface, and in addition to our existing data, we'll find also a host called 'hosted_engine_1' and a VM called 'HostedEngine'.
+That's it. If we now point a browser at **https://my-engine.home.local/ovirt-engine/** , we can login to the web admin interface, and in addition to our existing data, we'll also find a host called 'hosted_engine_1' and a VM called 'HostedEngine'.

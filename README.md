@@ -43,6 +43,10 @@ You can access the source content in one of the following ways:
 - From the deployed website, scroll down to the bottom of the topic page and click "Edit this page on GitHub". You can then edit the file directly in the GitHub editor.
 - From this source repo, click the Edit icon (hover text "Edit this file") at the top-right corner of the topic header. You can then edit the file directly in the GitHub editor.
 
+### Add new author
+Minimalistic profiles of the author's are stored in `data/authors.yml`. Add yourself to this list,
+if you want to use a nickname or an avatar.
+
 ### Add new content
 
 All content in the website is written in Markdown. For information on formatting Markdown, see [Markdown Basics](https://help.github.com/articles/markdown-basics/).
@@ -65,7 +69,7 @@ NOTE: Blog posts contain additional metadata and naming conventions that Middlem
 
 To modify incorrect, obsolete, or outdated information, you can edit the topic yourself and submit a pull request. The pull request will be reviewed by contributors with commit rights, and if it is accepted it will be merged to the website.
 
-To edit content files, follow the steps in [Access the source files](### Access the source files) and edit the file.
+To edit content files, follow the steps in [Access the source files](#access-the-source-files) and edit the file.
 
 IMPORTANT: Some content was converted from legacy MediaWiki and contains a special header used for auto-redirects. If you edit a legacy file, do not modify or remove this header.
 
